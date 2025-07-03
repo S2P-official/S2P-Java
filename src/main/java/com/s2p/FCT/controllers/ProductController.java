@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.s2p.FCT.entity.Product;
 import com.s2p.FCT.services.ProductService;
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @RestController()
 public class ProductController {
 
