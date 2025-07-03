@@ -23,11 +23,11 @@ public class AddInventoryController {
 
 	    @PostMapping("/add")
 	    public ResponseEntity<?> addProduct(
-	        @RequestPart("product") AddInventory product,
+	        @RequestPart("AddInventory") AddInventory addInventory,
 	        @RequestPart("images") List<MultipartFile> images
 	    ) {
 	        try {
-	        	AddInventory saved = addInventoryService.saveProductWithImages(product, images);
+	        	AddInventory saved = addInventoryService.saveProductWithImages(addInventory, images);
 	            return ResponseEntity.ok(saved);
 	        } catch (IOException e) {
 	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving product");
