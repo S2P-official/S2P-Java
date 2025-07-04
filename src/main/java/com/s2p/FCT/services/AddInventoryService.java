@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.nio.file.Path;
+import java.io.File;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,16 +23,17 @@ public class AddInventoryService {
     @Autowired
     private AddInventoryRepository addInventoryRepository;
 
+    // Absolute path where you want to store images
+    private final String BASE_UPLOAD_DIR = "/home/santosh/Backend/uploads";
+
     public AddInventory saveProductWithImages(AddInventory product, List<MultipartFile> images) throws IOException {
         List<String> imagePaths = new ArrayList<>();
 
-        // Base upload directory
-        Path baseUploadPath = Paths.get("uploads");
-
-        // Create folder based on product name (sanitized)
+        // Sanitize folder name
         String safeFolderName = product.getName().replaceAll("[^a-zA-Z0-9-_]", "_");
-        Path productUploadPath = baseUploadPath.resolve(safeFolderName);
+        Path productUploadPath = Paths.get(BASE_UPLOAD_DIR, safeFolderName);
 
+        // Create directories if not exist
         if (!Files.exists(productUploadPath)) {
             Files.createDirectories(productUploadPath);
         }
@@ -41,16 +43,16 @@ public class AddInventoryService {
             Path filePath = productUploadPath.resolve(fileName);
             Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            // Save the relative path
-            imagePaths.add("/home/santosh/Backend/uploads/" + safeFolderName + "/" + fileName);
+            // Store relative web path to serve later
+            String webPath = "/uploads/" + safeFolderName + "/" + fileName;
+            imagePaths.add(webPath);
         }
 
         product.setImagePaths(String.join(",", imagePaths));
         return addInventoryRepository.save(product);
     }
-    
-    public List<AddInventory> getAllProducts() { 
+
+    public List<AddInventory> getAllProducts() {
         return addInventoryRepository.findAll();
     }
-    
 }
