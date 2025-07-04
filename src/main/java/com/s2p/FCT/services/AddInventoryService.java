@@ -42,14 +42,14 @@ public class AddInventoryService {
             Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
             // Save the relative path
-            imagePaths.add("/uploads/" + safeFolderName + "/" + fileName);
+            imagePaths.add("/home/santosh/Backend/uploads/" + safeFolderName + "/" + fileName);
         }
 
         product.setImagePaths(String.join(",", imagePaths));
         return addInventoryRepository.save(product);
     }
     
-    public List<AddInventory> getAllProducts() {
+    public List<AddInventory> getAllProducts() { 
         return addInventoryRepository.findAll();
     }
     
