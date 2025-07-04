@@ -48,4 +48,9 @@ public class AddInventoryService {
         product.setImagePaths(String.join(",", imagePaths));
         return addInventoryRepository.save(product);
     }
+    
+    public List<AddInventory> getAllProducts() {
+        return addInventoryRepository.findAll();
+    }
+    
 }

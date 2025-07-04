@@ -41,4 +41,10 @@ public class AddInventoryController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving product");
         }
     }
+    
+    @GetMapping("/products")
+    public ResponseEntity<List<AddInventory>> getAllProducts() {
+        List<AddInventory> products = addInventoryService.getAllProducts();
+        return ResponseEntity.ok(products);
+    }
 }
