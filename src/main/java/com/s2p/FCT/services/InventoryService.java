@@ -14,19 +14,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.s2p.FCT.entity.AddInventory;
-import com.s2p.FCT.repositories.AddInventoryRepository;
+
+import com.s2p.FCT.entity.Inventory;
+
+import com.s2p.FCT.repositories.InventoryRepository;
 
 @Service
-public class AddInventoryService {
+public class InventoryService {
 
     @Autowired
-    private AddInventoryRepository addInventoryRepository;
+    private InventoryRepository inventoryRepository;
 
     // Absolute path where you want to store images
-    private final String BASE_UPLOAD_DIR = "/home/santosh/Backend/uploads";
+    private final String BASE_UPLOAD_DIR = "/uploads";
 
-    public AddInventory saveProductWithImages(AddInventory product, List<MultipartFile> images) throws IOException {
+    public Inventory saveProductWithImages(Inventory product, List<MultipartFile> images) throws IOException {
         List<String> imagePaths = new ArrayList<>();
 
         // Sanitize folder name
@@ -49,10 +51,15 @@ public class AddInventoryService {
         }
 
         product.setImagePaths(String.join(",", imagePaths));
-        return addInventoryRepository.save(product);
+        return inventoryRepository.save(product);
     }
 
-    public List<AddInventory> getAllProducts() {
-        return addInventoryRepository.findAll();
+    public List<Inventory> getAllProducts() {
+        return inventoryRepository.findAll();
     }
+    public Inventory getCheckoutProductById(Long id) {
+        return inventoryRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Product not found with ID: " + id));
+    }
+
 }

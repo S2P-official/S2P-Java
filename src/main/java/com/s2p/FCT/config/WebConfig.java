@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:/home/santosh/Backend/uploads/"); // folder where images are stored
+                .addResourceLocations("file:/uploads/"); // folder where images are stored
     }
     
     @Override
